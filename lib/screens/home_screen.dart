@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:zxc/colors/app_colors.dart';
 import '/database/database.dart';
 import '/models/note_model.dart';
 
@@ -59,82 +61,95 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-      padding: EdgeInsets.symmetric(
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.symmetric(
         horizontal: 10.0,
       ),
-      child: Slidable(
-        actionPane: const SlidableBehindActionPane(),
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            caption: 'Delete',
-            color: Colors.red,
-            icon: Icons.delete,
-            onTap: delete,
-          ),
-        ],
-        actions: <Widget>[
-          IconSlideAction(
-            color: Colors.green,
-            iconWidget: Checkbox(
-              onChanged: (value) {
-                note.status = value! ? 1 : 0;
-                DatabaseHelper.instance.updateNote(note);
-                _updateNoteList();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => HomeScreen()));
-              },
-              activeColor: Theme.of(context).primaryColor,
-              value: note.status == 1 ? true : false,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Slidable(
+          actionPane: const SlidableBehindActionPane(),
+          secondaryActions: <Widget>[
+            IconSlideAction(
+              caption: 'Delete',
+              color: AppColors.mainRed,
+              icon: Icons.delete,
+              onTap: delete,
             ),
-          ),
-        ],
-        child: ColoredBox(
-          color: Colors.white,
-          child: ListTile(
-            title: Text(
-              note.title!,
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-                decoration: note.status == 0
-                    ? TextDecoration.none
-                    : TextDecoration.lineThrough,
+          ],
+          actions: <Widget>[
+            IconSlideAction(
+              color: AppColors.mainGreen,
+              iconWidget: Checkbox(
+                onChanged: (value) {
+                  note.status = value! ? 1 : 0;
+                  DatabaseHelper.instance.updateNote(note);
+                  _updateNoteList();
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                },
+                activeColor: AppColors.mainGreen,
+                value: note.status == 1 ? true : false,
               ),
             ),
-            subtitle: Text(
-              '${_dateFormatter.format(note.date!)} - ${note.priority}',
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.black38,
-                decoration: note.status == 0
-                    ? TextDecoration.none
-                    : TextDecoration.lineThrough,
-              ),
-            ),
-            trailing: Icon(Icons.warning_amber),
-            leading: Checkbox(
-              onChanged: (value) {
-                note.status = value! ? 1 : 0;
-                DatabaseHelper.instance.updateNote(note);
-                _updateNoteList();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => HomeScreen()));
-              },
-              activeColor: Color(0xFF34C759),
-              value: note.status == 1 ? true : false,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (_) => AddNoteScreen(
-                    updateNoteList: _updateNoteList(),
-                    note: note,
+          ],
+          child: ColoredBox(
+            color: Colors.white,
+            child: ListTile(
+              title: Transform.translate(
+                offset: Offset(-15, 0),
+                child: Text(
+                  note.title!,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    decoration: note.status == 0
+                        ? TextDecoration.none
+                        : TextDecoration.lineThrough,
                   ),
                 ),
-              );
-            },
+              ),
+              subtitle: Transform.translate(
+                offset: Offset(-15, 0),
+                child: Text(
+                  '${_dateFormatter.format(note.date!)} - ${note.priority}',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.black38,
+                    decoration: note.status == 0
+                        ? TextDecoration.none
+                        : TextDecoration.lineThrough,
+                  ),
+                ),
+              ),
+              trailing: Icon(Icons.warning_amber),
+              leading: Transform.translate(
+                offset: Offset(-15, 0),
+                child: Checkbox(
+                  onChanged: (value) {
+                    note.status = value! ? 1 : 0;
+                    DatabaseHelper.instance.updateNote(note);
+                    _updateNoteList();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => HomeScreen()));
+                  },
+                  activeColor: AppColors.mainGreen,
+                  value: note.status == 1 ? true : false,
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (_) => AddNoteScreen(
+                      updateNoteList: _updateNoteList(),
+                      note: note,
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -158,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
         ),
       ),
       body: FutureBuilder(
@@ -182,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (index == 0) {
                   return Padding(
                     padding: EdgeInsets.only(
-                        left: 60, right: 60, bottom: 20, top: 150),
+                        left: 60, right: 60, bottom: 20, top: 160),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -194,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 5.0,
+                          height: 6.0,
                         ),
                         Text(
                           'Выполнено $completeNoteCount - ${snapshot.data.length}',
