@@ -58,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _updateNoteList();
     }
 
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
       padding: EdgeInsets.symmetric(
         horizontal: 10.0,
       ),
@@ -111,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     : TextDecoration.lineThrough,
               ),
             ),
+            trailing: Icon(Icons.warning_amber),
             leading: Checkbox(
               onChanged: (value) {
                 note.status = value! ? 1 : 0;
@@ -119,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (_) => HomeScreen()));
               },
-              activeColor: Theme.of(context).primaryColor,
+              activeColor: Color(0xFF34C759),
               value: note.status == 1 ? true : false,
             ),
             onTap: () {
@@ -142,7 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
