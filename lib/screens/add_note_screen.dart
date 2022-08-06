@@ -19,14 +19,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   final _formKey = GlobalKey<FormState>();
 
   DateTime _date = DateTime.now();
-  String _priority = 'Low';
+  String _priority = 'Нет';
   String _title = '';
   String btnText = 'Add Note';
   String titleText = 'todo';
 
   TextEditingController _dateController = TextEditingController();
   final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
-  final List<String> _priorities = ['Low', 'Medium', 'High'];
+  final List<String> _priorities = ['Нет', 'Низкий', 'Высокии'];
 
   delete() {
     DatabaseHelper.instance.deleteNote(widget.note!.id!);
@@ -144,7 +144,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       fontWeight: FontWeight.bold)))
         ],
       ),
-      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -177,6 +176,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                 fontSize: 18.0,
                                 color: Colors.black54,
                               ),
+                              filled: true,
+                              fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -245,48 +246,56 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: ElevatedButton.icon(
-                            icon: Icon(
-                              Icons.save_alt,
-                              color: Colors.green,
-                            ),
-                            onPressed: _submit,
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.white, elevation: 0),
-                            label: Text(
-                              'Обновить',
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        widget.note != null
-                            ? Container(
-                                alignment: Alignment.centerLeft,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.white, elevation: 0),
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 30,
-                                  ),
-                                  onPressed: delete,
-                                  label: Text(
-                                    'Удалить',
-                                    style: TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.red,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            widget.note != null
+                                ? Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: ElevatedButton.icon(
+                                      style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Theme.of(context).canvasColor,
+                                          elevation: 0),
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Color(0xFFFF3B30),
+                                        size: 30,
+                                      ),
+                                      onPressed: delete,
+                                      label: Text(
+                                        'Удалить',
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          color: Color(0xFFFF3B30),
+                                        ),
+                                      ),
                                     ),
+                                  )
+                                : SizedBox.shrink(),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: ElevatedButton.icon(
+                                icon: Icon(
+                                  Icons.save_alt,
+                                  color: Colors.green,
+                                ),
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                    primary: Theme.of(context).canvasColor,
+                                    elevation: 0),
+                                label: Text(
+                                  'Обновить',
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    color: Color(0xFF34C759),
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              )
-                            : SizedBox.shrink(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   )
