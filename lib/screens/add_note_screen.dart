@@ -56,7 +56,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     } else {
       setState(() {
         btnText = 'Add Note';
-        titleText = 'Add Poi Poi ToDo';
+        titleText = 'todo';
       });
     }
 
