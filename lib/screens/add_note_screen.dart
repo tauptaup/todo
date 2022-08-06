@@ -22,7 +22,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   String _priority = 'Low';
   String _title = '';
   String btnText = 'Add Note';
-  String titleText = 'Add  ToDo';
+  String titleText = 'todo';
 
   TextEditingController _dateController = TextEditingController();
   final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
@@ -56,7 +56,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     } else {
       setState(() {
         btnText = 'Add Note';
-        titleText = 'todo';
+        titleText = 'Add ToDo';
       });
     }
 
@@ -119,6 +119,31 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 2,
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.clear,
+            size: 25.0,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        actions: [
+          RaisedButton(
+              color: Colors.white,
+              elevation: 0,
+              onPressed: _submit,
+              child: Text('CОХРАНИТЬ',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold)))
+        ],
+      ),
       backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -132,32 +157,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 25.0,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: Text(
-                      titleText,
-                      style: TextStyle(
-                        color: Colors.lightBlueAccent.shade200,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  SizedBox(height: 20),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -167,11 +167,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             vertical: 10.0,
                           ),
                           child: TextFormField(
+                            maxLines: 5,
                             style: TextStyle(
                               fontSize: 18.0,
                             ),
                             decoration: InputDecoration(
-                              labelText: 'Title',
+                              hintText: 'Купить что-то',
                               labelStyle: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.black54,
@@ -185,29 +186,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                 : null,
                             onSaved: (input) => _title = input!,
                             initialValue: _title,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                          ),
-                          child: TextFormField(
-                            readOnly: true,
-                            controller: _dateController,
-                            onTap: _handleDatePicker,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Date',
-                              labelStyle: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.black54,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
                           ),
                         ),
                         Padding(
@@ -231,11 +209,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             }).toList(),
                             style: TextStyle(fontSize: 18.0),
                             decoration: InputDecoration(
-                              labelText: 'Priority',
-                              labelStyle: TextStyle(fontSize: 18.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                              border: InputBorder.none,
+                              labelText: 'Важность',
+                              labelStyle: TextStyle(fontSize: 24.0),
                             ),
                             validator: (input) => _priority == null
                                 ? 'Please select a priority level'
@@ -248,21 +224,42 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             value: _priority,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 20.0),
-                          height: 60.0,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(40.0),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.0,
                           ),
-                          child: ElevatedButton(
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: _dateController,
+                            onTap: _handleDatePicker,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Сделать до',
+                              labelStyle: TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.black54,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: ElevatedButton.icon(
+                            icon: Icon(
+                              Icons.save_alt,
+                              color: Colors.green,
+                            ),
                             onPressed: _submit,
-                            child: Text(
-                              btnText.toUpperCase(),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white, elevation: 0),
+                            label: Text(
+                              'Обновить',
                               style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
+                                fontSize: 22.0,
+                                color: Colors.green,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -270,21 +267,21 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         ),
                         widget.note != null
                             ? Container(
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                height: 60.0,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                                child: ElevatedButton(
+                                alignment: Alignment.centerLeft,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.white, elevation: 0),
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                    size: 30,
+                                  ),
                                   onPressed: delete,
-                                  child: Text(
-                                    'delete'.toUpperCase(),
+                                  label: Text(
+                                    'Удалить',
                                     style: TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22.0,
+                                      color: Colors.red,
                                     ),
                                   ),
                                 ),
