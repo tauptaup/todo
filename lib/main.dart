@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zxc/colors/app_colors.dart';
+import 'package:http/http.dart' as http;
 import '/screens/home_screen.dart';
+import 'colors/themes.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,11 +14,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo',
-      theme: ThemeData(
-        primarySwatch: AppColors.mainBlue,
-        canvasColor: AppColors.mainCanvas,
-      ),
+      themeMode: ThemeMode.system,
+      theme: MyThemes.lighTheme,
+      // darkTheme: MyThemes.darkTheme,
       home: HomeScreen(),
     );
+  }
+
+  void qwe() async {
+    var request =
+        http.Request('GET', Uri.parse('https://beta.mrdekk.ru/todobackend'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 }
