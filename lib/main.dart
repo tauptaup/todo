@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zxc/colors/app_colors.dart';
 import '/screens/home_screen.dart';
 
 void main() {
@@ -13,17 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo',
       theme: ThemeData(
-        primarySwatch: MaterialColor(0xFF007AFF, {
-          50: Color(0xFF007AFF),
-          100: Color(0xFF007AFF),
-          200: Color(0xFF007AFF),
-          300: Color(0xFF007AFF),
-          400: Color(0xFF007AFF),
-          500: Color(0xFF007AFF),
-          600: Color(0xFF007AFF),
-          700: Color(0xFF007AFF),
-        }),
-        canvasColor: Color(0xFFF7F6F2),
+        primarySwatch: AppColors.mainBlue,
+        canvasColor: AppColors.mainCanvas,
       ),
       home: HomeScreen(),
     );
