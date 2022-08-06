@@ -22,7 +22,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   String _priority = 'Low';
   String _title = '';
   String btnText = 'Add Note';
-  String titleText = 'Add Poi Poi ToDo';
+  String titleText = 'Add  ToDo';
 
   TextEditingController _dateController = TextEditingController();
   final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
@@ -51,7 +51,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
       setState(() {
         btnText = 'Update Note';
-        titleText = 'Update Poi Poi ToDo';
+        titleText = 'Update ToDo';
       });
     } else {
       setState(() {
