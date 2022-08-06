@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:zxc/colors/app_colors.dart';
+import '../colors/app_colors.dart';
 import '/database/database.dart';
 import '/models/note_model.dart';
 
@@ -160,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: AppColors.mainBlue,
         onPressed: () {
           Navigator.push(
             context,
