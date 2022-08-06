@@ -120,8 +120,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        backgroundColor: Colors.white,
+        elevation: 0,
+        backgroundColor: Theme.of(context).canvasColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -129,12 +129,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           child: Icon(
             Icons.clear,
             size: 25.0,
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
           ),
         ),
         actions: [
           RaisedButton(
-              color: Colors.white,
+              color: Theme.of(context).canvasColor,
               elevation: 0,
               onPressed: _submit,
               child: Text('CОХРАНИТЬ',
@@ -166,12 +166,19 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             vertical: 10.0,
                           ),
                           child: TextFormField(
-                            maxLines: 5,
+                            maxLines: null,
+                            minLines: 5,
+                            keyboardType: TextInputType.multiline,
                             style: TextStyle(
                               fontSize: 18.0,
                             ),
                             decoration: InputDecoration(
+                              // contentPadding:
+                              //     EdgeInsets.fromLTRB(10, 10, 10, 100),
                               hintText: 'Купить что-то',
+                              hintStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
                               labelStyle: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.black54,
@@ -193,26 +200,27 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                           child: DropdownButtonFormField(
                             isDense: true,
-                            icon: Icon(Icons.arrow_drop_down_circle_rounded),
-                            iconSize: 22.0,
-                            iconEnabledColor: Theme.of(context).primaryColor,
+                            iconSize: 0,
                             items: _priorities.map((priority) {
                               return DropdownMenuItem(
                                 value: priority,
                                 child: Text(
                                   priority,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.grey,
                                     fontSize: 18.0,
                                   ),
                                 ),
                               );
                             }).toList(),
-                            style: TextStyle(fontSize: 18.0),
+                            style: TextStyle(fontSize: 16.0),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               labelText: 'Важность',
-                              labelStyle: TextStyle(fontSize: 24.0),
+                              labelStyle: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                             validator: (input) => _priority == null
                                 ? 'Please select a priority level'
@@ -225,6 +233,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             value: _priority,
                           ),
                         ),
+                        Divider(height: 1, color: Colors.grey),
                         Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 10.0,
@@ -234,68 +243,44 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             controller: _dateController,
                             onTap: _handleDatePicker,
                             style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                                fontSize: 16.0, color: Colors.lightBlue),
                             decoration: InputDecoration(
                               labelText: 'Сделать до',
                               labelStyle: TextStyle(
                                 fontSize: 24.0,
-                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            widget.note != null
-                                ? Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                          primary:
-                                              Theme.of(context).canvasColor,
-                                          elevation: 0),
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Color(0xFFFF3B30),
-                                        size: 30,
-                                      ),
-                                      onPressed: delete,
-                                      label: Text(
-                                        'Удалить',
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          color: Color(0xFFFF3B30),
-                                        ),
-                                      ),
+                        Divider(height: 1, color: Colors.grey),
+                        SizedBox(height: 15),
+                        widget.note != null
+                            ? Container(
+                                alignment: Alignment.centerLeft,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      primary: Theme.of(context).canvasColor,
+                                      elevation: 0),
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Color(0xFFFF3B30),
+                                    size: 25,
+                                  ),
+                                  onPressed: delete,
+                                  label: Text(
+                                    'Удалить',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Color(0xFFFF3B30),
                                     ),
-                                  )
-                                : SizedBox.shrink(),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: ElevatedButton.icon(
-                                icon: Icon(
-                                  Icons.save_alt,
-                                  color: Colors.green,
-                                ),
-                                onPressed: _submit,
-                                style: ElevatedButton.styleFrom(
-                                    primary: Theme.of(context).canvasColor,
-                                    elevation: 0),
-                                label: Text(
-                                  'Обновить',
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    color: Color(0xFF34C759),
-                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
+                              )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   )
