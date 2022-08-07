@@ -134,7 +134,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         actions: [
           TextButton(
             onPressed: _submit,
-            child: Text(
+            child: const Text(
               'CОХРАНИТЬ',
               textAlign: TextAlign.left,
               style: TextStyle(
