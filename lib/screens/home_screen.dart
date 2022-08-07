@@ -14,17 +14,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final Note? note;
-  // final Function? updateNoteList;
-
-  // _HomeScreenState({this.note, this.updateNoteList});
-
   late Future<List<Note>> _noteList;
-
   final DateFormat _dateFormatter = DateFormat("MMM dd, yyyy");
-
   DatabaseHelper _databaseHelper = DatabaseHelper.instance;
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _noteList = DatabaseHelper.instance.getNoteList();
   }
 
-  Widget _buildTaskDesign(Note note, BuildContext context) {
+  Widget _buildTask(Note note, BuildContext context) {
     delete() {
       DatabaseHelper.instance.deleteNote(note.id!);
 
@@ -201,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 }
-                return _buildTaskDesign(snapshot.data![index - 1], context);
+                return _buildTask(snapshot.data![index - 1], context);
               },
             );
           }),
