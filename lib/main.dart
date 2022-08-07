@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/screens/home_screen.dart';
 import 'colors/app_colors.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -56,16 +57,16 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  //   void qwe() async {
-  //     var request =
-  //         http.Request('GET', Uri.parse('https://beta.mrdekk.ru/todobackend'));
+  void Qwe() async {
+    var request =
+        http.Request('GET', Uri.parse('https://beta.mrdekk.ru/todobackend'));
 
-  //     http.StreamedResponse response = await request.send();
+    http.StreamedResponse response = await request.send();
 
-  //   if (response.statusCode == 200) {
-  //     print(await response.stream.bytesToString());
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 }
