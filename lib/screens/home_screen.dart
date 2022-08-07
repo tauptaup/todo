@@ -36,17 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTaskDesign(Note note, BuildContext context) {
-    // qwe() {
-    //   (value) {
-    //     note.status = value! ? 1 : 0;
-
-    //     DatabaseHelper.instance.updateNote(note);
-    //     _updateNoteList();
-    //     Navigator.pushReplacement(
-    //         context, MaterialPageRoute(builder: (_) => HomeScreen()));
-    //   };
-    // }
-
     delete() {
       DatabaseHelper.instance.deleteNote(note.id!);
 
@@ -60,18 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      margin: EdgeInsets.symmetric(
-        horizontal: 10.0,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
         child: Slidable(
           actionPane: const SlidableBehindActionPane(),
           secondaryActions: <Widget>[
             IconSlideAction(
-              caption: 'Delete',
               color: AppColors.mainRed,
               icon: Icons.delete,
               onTap: delete,
@@ -94,15 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
           child: ColoredBox(
-            color: Colors.white,
+            color: Theme.of(context).accentColor,
             child: ListTile(
               title: Transform.translate(
-                offset: Offset(-15, 0),
+                offset: const Offset(-15, 0),
                 child: Text(
                   note.title!,
                   style: TextStyle(
                     fontSize: 18.0,
-                    color: Colors.black,
                     decoration: note.status == 0
                         ? TextDecoration.none
                         : TextDecoration.lineThrough,
@@ -110,21 +93,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               subtitle: Transform.translate(
-                offset: Offset(-15, 0),
+                offset: const Offset(-15, 0),
                 child: Text(
                   '${_dateFormatter.format(note.date!)} - ${note.priority}',
                   style: TextStyle(
                     fontSize: 15.0,
-                    color: Colors.black38,
                     decoration: note.status == 0
                         ? TextDecoration.none
                         : TextDecoration.lineThrough,
                   ),
                 ),
               ),
-              trailing: Icon(Icons.warning_amber),
+              trailing: const Icon(Icons.warning_amber),
               leading: Transform.translate(
-                offset: Offset(-15, 0),
+                offset: const Offset(-15, 0),
                 child: Checkbox(
                   onChanged: (value) {
                     note.status = value! ? 1 : 0;
@@ -163,23 +145,23 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            CupertinoPageRoute(
+            MaterialPageRoute(
               builder: (_) => AddNoteScreen(
                 updateNoteList: _updateNoteList,
               ),
             ),
           );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
-          color: Theme.of(context).canvasColor,
+          color: Colors.white,
         ),
       ),
       body: FutureBuilder(
           future: _noteList,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -190,24 +172,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 .length;
 
             return ListView.builder(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               itemCount: int.parse(snapshot.data.length.toString()) + 1,
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0) {
                   return Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 60, right: 60, bottom: 20, top: 160),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Мои дела',
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 6.0,
                         ),
                         Text(
