@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:zxc/colors/app_colors.dart';
 import '/database/database.dart';
 import '/models/note_model.dart';
 import '/screens/home_screen.dart';
@@ -24,7 +24,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   String btnText = 'Add Note';
   String titleText = 'todo';
 
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
   final List<String> _priorities = ['Нет', 'Низкий', 'Высокии'];
 
@@ -121,7 +121,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).canvasColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -129,19 +128,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           child: Icon(
             Icons.clear,
             size: 25.0,
-            color: Colors.black,
+            color: Theme.of(context).hintColor,
           ),
         ),
         actions: [
-          RaisedButton(
-              color: Theme.of(context).canvasColor,
-              elevation: 0,
-              onPressed: _submit,
-              child: Text('CОХРАНИТЬ',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold)))
+          TextButton(
+            onPressed: _submit,
+            child: Text(
+              'CОХРАНИТЬ',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.blue,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ],
       ),
       body: GestureDetector(
@@ -149,44 +151,44 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
                 vertical: 10.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10.0,
                           ),
                           child: TextFormField(
                             maxLines: null,
                             minLines: 5,
                             keyboardType: TextInputType.multiline,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18.0,
                             ),
                             decoration: InputDecoration(
-                              // contentPadding:
-                              //     EdgeInsets.fromLTRB(10, 10, 10, 100),
-                              hintText: 'Купить что-то',
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(width: 0)),
+                              hintText: 'Что-то надо сделать...',
                               hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500),
-                              labelStyle: TextStyle(
+                                color: Theme.of(context).cardColor,
+                              ),
+                              labelStyle: const TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.black54,
                               ),
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: Theme.of(context).accentColor,
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
                             ),
                             validator: (input) => input!.trim().isEmpty
@@ -197,7 +199,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: DropdownButtonFormField(
                             isDense: true,
                             iconSize: 0,
@@ -206,21 +208,19 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                 value: priority,
                                 child: Text(
                                   priority,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18.0,
                                   ),
                                 ),
                               );
                             }).toList(),
-                            style: TextStyle(fontSize: 16.0),
-                            decoration: InputDecoration(
+                            style: const TextStyle(fontSize: 16.0),
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               labelText: 'Важность',
                               labelStyle: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             validator: (input) => _priority == null
                                 ? 'Please select a priority level'
@@ -233,45 +233,40 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             value: _priority,
                           ),
                         ),
-                        Divider(height: 1, color: Colors.grey),
+                        const Divider(height: 1, color: Colors.grey),
                         Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10.0,
                           ),
                           child: TextFormField(
                             readOnly: true,
                             controller: _dateController,
                             onTap: _handleDatePicker,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16.0, color: Colors.lightBlue),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Сделать до',
                               labelStyle: TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                               border: InputBorder.none,
                             ),
                           ),
                         ),
-                        Divider(height: 1, color: Colors.grey),
-                        SizedBox(height: 15),
+                        const Divider(height: 1, color: Colors.grey),
+                        const SizedBox(height: 15),
                         widget.note != null
                             ? Container(
                                 alignment: Alignment.centerLeft,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      primary: Theme.of(context).canvasColor,
-                                      elevation: 0),
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Color(0xFFFF3B30),
-                                    size: 25,
-                                  ),
+                                child: TextButton.icon(
                                   onPressed: delete,
-                                  label: Text(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    size: 25,
+                                    color: AppColors.mainRed,
+                                  ),
+                                  label: const Text(
                                     'Удалить',
                                     style: TextStyle(
                                       fontSize: 20.0,
@@ -280,7 +275,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                   ),
                                 ),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       ],
                     ),
                   )
