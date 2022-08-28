@@ -1,7 +1,10 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:zxc/database/appMetrica.dart';
 import '../colors/app_colors.dart';
 import '/database/database.dart';
 import '/models/note_model.dart';
@@ -31,13 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
     delete() {
       DatabaseHelper.instance.deleteNote(note.id!);
 
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => HomeScreen(),
-          ));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomeScreen(),
+        ),
+      );
 
       _updateNoteList();
+
+      // _updateNoteList();
     }
 
     return Container(
@@ -61,8 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   note.status = value! ? 1 : 0;
                   DatabaseHelper.instance.updateNote(note);
                   _updateNoteList();
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => HomeScreen(),
+                    ),
+                  );
                 },
                 activeColor: AppColors.mainGreen,
                 value: note.status == 1 ? true : false,
@@ -103,9 +113,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   onChanged: (value) {
                     note.status = value! ? 1 : 0;
                     DatabaseHelper.instance.updateNote(note);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => HomeScreen(),
+                      ),
+                    );
                     _updateNoteList();
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => HomeScreen()));
                   },
                   activeColor: AppColors.mainGreen,
                   value: note.status == 1 ? true : false,
@@ -114,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(
+                  MaterialPageRoute(
                     builder: (_) => AddNoteScreen(
                       updateNoteList: _updateNoteList(),
                       note: note,
